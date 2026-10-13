@@ -1,0 +1,10 @@
+# Large media is published as GitHub release assets, not committed
+source/
+work/
+restored/
+audio/*.wav
+audio/*.mp3
+music/*.mp3
+deliverables/*.mp4
+*.mpeg
+*.mpg

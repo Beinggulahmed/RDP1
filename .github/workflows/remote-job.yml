@@ -1,0 +1,60 @@
+name: Remote production job
+
+# Generic executor for the archival-documentary pipeline. A job script under
+# project/jobs/ is run on a GitHub-hosted runner (open internet, ffmpeg,
+# python) and everything it writes to out/ is published as release assets so
+# the restricted production environment can pull the results.
+
+on:
+  push:
+    branches: ["claude/wonderful-feynman-wb93v5"]
+    paths: ["project/jobs/**"]
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "Job script name under project/jobs (without .sh)"
+        required: true
+        default: "current"
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      JOB: ${{ inputs.job || 'current' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install tooling
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet --upgrade pip
+          python -m pip install --quiet faster-whisper edge-tts
+          ffmpeg -version | head -1
+
+      - name: Run job script
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          echo "Running project/jobs/${JOB}.sh"
+          bash "project/jobs/${JOB}.sh" 2>&1 | tee out/job_log.txt
+
+      - name: Publish results as release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="job-${JOB}-${GITHUB_RUN_ID}"
+          shopt -s nullglob
+          ASSETS=(out/*)
+          gh release create "$TAG" "${ASSETS[@]}" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "Job ${JOB} (run ${GITHUB_RUN_ID})" \
+            --notes "Automated output of project/jobs/${JOB}.sh"
+          echo "Release: $TAG"
