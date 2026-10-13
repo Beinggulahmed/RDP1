@@ -28,6 +28,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg zip > /dev/null
+          ffmpeg -version | head -1
+
       - name: Fetch item metadata and choose files
         run: |
           set -euo pipefail
@@ -42,7 +48,7 @@ jobs:
               n = f['name']; src = f.get('source')
               if src == 'original' and n.lower().endswith(('.mpeg','.mpg','.mp4','.mov','.avi','.mkv','.m2v')):
                   want.append(n)
-              if n.lower().endswith(('_512kb.mp4','.srt','.vtt')):
+              if n.lower().endswith(('_512kb.mp4','.srt','.vtt','_whisper_asr.json','_meta.xml','_reviews.xml','_intermediate_asr.json')):
                   want.append(n)
           want = sorted(set(want))
           open('out/files.txt','w').write('\n'.join(want)+'\n')

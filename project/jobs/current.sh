@@ -2,6 +2,7 @@
 # Job 1: transcribe the original film audio with word timestamps, fetch
 # commercially licensed background-music candidates with their license text,
 # and fetch the exact Wikimedia Commons file page for the rights report.
+# (rev 2: runner needs ffmpeg installed by the workflow)
 set -euo pipefail
 IA_ID=DatingDo1949
 mkdir -p out src
