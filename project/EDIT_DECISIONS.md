@@ -119,7 +119,28 @@ narration only over muted B-roll or cards. Final mix `loudnorm` to −14 LUFS /
   chapter titles, an "ORIGINAL AUDIO · 1949" badge on archival-audio passages,
   title and credits cards. Typeface Inter (OFL).
 
-## 7. Deliverables and QC
+## 7. QC results
 
-See `QC_REPORT.txt` (output of `scripts/qc.sh`) and `DELIVERABLES.md` for the
-release links of `FINAL_DOCUMENTARY_4K.mp4` and `PREVIEW_1080P.mp4`.
+Local 1080p verification build (`scripts/qc.sh`, same EDL/ASS/stems as the 4K
+master):
+
+| Check | Result |
+|---|---|
+| Resolution / frame rate | 1920×1080, 30000/1001 fps, 8,840 frames (4K master: 3840×2160) |
+| A/V length | video 294.961 s, audio 294.954 s → 7 ms difference |
+| Narration placement | stem onsets at 20.0 / 66.5 / 112.5 / 172.0 / 240.7 s vs EDL 19.8 / 66.6 / 112.5 / 172.1 / 240.55 s (+0.2 s lead-in silence) |
+| Black frames | only the designed fade to black at 293.99–294.93 s |
+| Frozen frames | only the two static cards (title 19–25 s, credits 286–294 s) |
+| Loudness | −13.8 LUFS integrated, LRA 8.5 LU, true peak −1.5 dBFS, stereo 48 kHz |
+| Subtitles | 113 cues; original lines corrected by hand; narration aligned to script text |
+| Colour | consistent grade across all 19 segments (single filter chain); no colourisation |
+| Faces | lanczos + mild unsharp only — no generative model, so no face distortion |
+| Decode | full decode with no errors |
+
+Found and fixed during QC: narration stem started 19.8 s early (input-seek +
+adelay interaction → replaced by filter-side `atrim`), literal `\N` in cards,
+hollow italic rendering of the original-narrator style, mono downmix of the
+original-audio stem, credits naming the wrong TTS engine.
+
+See `DELIVERABLES.md` for the release links of `FINAL_DOCUMENTARY_4K.mp4` and
+`PREVIEW_1080P.mp4` and their checksums.
