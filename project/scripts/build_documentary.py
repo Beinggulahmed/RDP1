@@ -153,7 +153,7 @@ def build_audio(edl, out_dir):
         inputs += ["-i", edl["source_audio"]]
         fi, fo = float(seg.get("afade_in", 0.15)), float(seg.get("afade_out", 0.25))
         a0, a1 = float(seg["src_start"]), float(seg["src_start"]) + float(seg["dur"])
-        filt.append(f"[{idx}:a]atrim={a0:.3f}:{a1:.3f},asetpts=PTS-STARTPTS,aresample=48000,highpass=f=70,lowpass=f=7500,afftdn=nf=-28:nr=12,"
+        filt.append(f"[{idx}:a]atrim={a0:.3f}:{a1:.3f},asetpts=PTS-STARTPTS,aresample=48000,aformat=channel_layouts=stereo,highpass=f=70,lowpass=f=7500,afftdn=nf=-28:nr=12,"
                     f"afade=t=in:st=0:d={fi},afade=t=out:st={float(seg['dur']) - fo:.3f}:d={fo},"
                     f"volume={gain}dB,adelay={int(starts[seg['id']] * 1000)}|{int(starts[seg['id']] * 1000)},asetpts=PTS-STARTPTS[o{idx}]")
         orig_labels.append(f"[o{idx}]")
