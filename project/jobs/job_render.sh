@@ -5,6 +5,7 @@
 # bed; renders the 4K master and the 1080p preview; runs QC; publishes all.
 set -euo pipefail
 IA_ID=DatingDo1949
+OUT_ROOT="${GITHUB_WORKSPACE:-$(pwd)}/out"; mkdir -p "$OUT_ROOT"
 cd project
 mkdir -p source audio music work out
 echo "== Fonts"
@@ -36,3 +37,7 @@ mkdir -p out/stems
 for f in work/build/audio/*.wav; do ffmpeg -v error -y -i "$f" -c:a flac "out/stems/$(basename "${f%.wav}").flac"; done
 cp subs/documentary.ass SUBTITLES.srt edit/edl.json edit/timeline.txt out/
 ls -la out out/stems
+(cd out && sha256sum *.mp4 > SHA256SUMS.txt && cat SHA256SUMS.txt)
+echo "== Copy results to $OUT_ROOT"
+cp -a out/. "$OUT_ROOT/"
+ls -la "$OUT_ROOT"

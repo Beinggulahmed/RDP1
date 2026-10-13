@@ -5,6 +5,7 @@
 set -euo pipefail
 RENDER_TAG="${RENDER_TAG:-job-current-38404439119}"
 IA_ID=DatingDo1949
+OUT_ROOT="${GITHUB_WORKSPACE:-$(pwd)}/out"; mkdir -p "$OUT_ROOT"
 cd project
 mkdir -p source audio music work out prev
 echo "== Previous renders"
@@ -31,5 +32,8 @@ for t in 10 30 75 100 130 160 210 250 280; do ffmpeg -v error -y -ss $t -i out/F
 mkdir -p out/stems
 for f in work/build/audio/*.wav; do ffmpeg -v error -y -i "$f" -c:a flac "out/stems/$(basename "${f%.wav}").flac"; done
 cp subs/documentary.ass SUBTITLES.srt edit/edl.json edit/timeline.txt out/
-(cd out && sha256sum *.mp4 > SHA256SUMS.txt && cat SHA256SUMS.txt)
 ls -la out out/stems
+(cd out && sha256sum *.mp4 > SHA256SUMS.txt && cat SHA256SUMS.txt)
+echo "== Copy results to $OUT_ROOT"
+cp -a out/. "$OUT_ROOT/"
+ls -la "$OUT_ROOT"
