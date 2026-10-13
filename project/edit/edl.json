@@ -22,8 +22,8 @@
    "type": "card",
    "still_from": 13.5,
    "dur": 6.0,
-   "blur": 26,
-   "dark": 0.45,
+   "blur": 28,
+   "dark": 0.62,
    "fade_in": 0.5,
    "fade_out": 0.4,
    "note": "Title card over blurred ticket close-up; narration n01 begins"
@@ -40,13 +40,13 @@
    "fade_in": 0.4,
    "fade_out": 0.5,
    "note": "B-roll: ticket close-up and Woody reading the note",
-   "dur": 14.3
+   "dur": 14.4
   },
   {
    "id": "s1a",
    "type": "clip",
    "src_start": 71.1,
-   "dur": 17.4,
+   "dur": 11.0,
    "orig_audio": true,
    "zoom": [
     1.0,
@@ -96,7 +96,7 @@
    "fade_in": 0.0,
    "fade_out": 0.5,
    "note": "B-roll: Woody decides to ask Ann",
-   "dur": 10.7
+   "dur": 11.3
   },
   {
    "id": "s2",
@@ -124,7 +124,7 @@
    "fade_in": 0.4,
    "fade_out": 0.5,
    "note": "B-roll: the Hi-Teen Carnival; narration n03",
-   "dur": 31.3
+   "dur": 29.8
   },
   {
    "id": "s3a",
@@ -194,7 +194,7 @@
    "fade_in": 0.0,
    "fade_out": 0.5,
    "note": "B-roll: Woody at the mirror",
-   "dur": 15.8
+   "dur": 15.35
   },
   {
    "id": "s4a",
@@ -209,20 +209,6 @@
    "fade_in": 0.4,
    "fade_out": 0.4,
    "note": "'How do you say good night?' - the 1 a.m. ending"
-  },
-  {
-   "id": "s4b",
-   "type": "clip",
-   "src_start": 679.8,
-   "dur": 10.2,
-   "orig_audio": true,
-   "zoom": [
-    1.0,
-    1.03
-   ],
-   "fade_in": 0.3,
-   "fade_out": 0.3,
-   "note": "'Well, so long.' - the abrupt ending"
   },
   {
    "id": "s4c",
@@ -241,8 +227,8 @@
   {
    "id": "b05a",
    "type": "clip",
-   "src_start": 604.0,
-   "dur": 18.0,
+   "src_start": 603.0,
+   "dur": 22.5,
    "orig_audio": false,
    "zoom": [
     1.0,
@@ -264,12 +250,12 @@
    "fade_in": 0.0,
    "fade_out": 1.0,
    "note": "B-roll: Woody walks home; The End card",
-   "dur": 22.5
+   "dur": 22.52
   },
   {
    "id": "credits",
    "type": "card",
-   "dur": 12.0,
+   "dur": 10.0,
    "colour": "0x0b0a09",
    "fade_in": 0.6,
    "fade_out": 1.2,
@@ -279,28 +265,28 @@
  "narration": [
   {
    "id": "n01",
-   "file": "audio/narration/n01.mp3",
+   "file": "audio/narration/n01.48k.wav",
    "at": 19.8
   },
   {
    "id": "n02",
-   "file": "audio/narration/n02.mp3",
-   "at": 72.9
+   "file": "audio/narration/n02.48k.wav",
+   "at": 66.6
   },
   {
    "id": "n03",
-   "file": "audio/narration/n03.mp3",
-   "at": 118.2
+   "file": "audio/narration/n03.48k.wav",
+   "at": 112.5
   },
   {
    "id": "n04",
-   "file": "audio/narration/n04.mp3",
-   "at": 179.3
+   "file": "audio/narration/n04.48k.wav",
+   "at": 172.1
   },
   {
    "id": "n05",
-   "file": "audio/narration/n05.mp3",
-   "at": 258.4
+   "file": "audio/narration/n05.48k.wav",
+   "at": 240.55
   }
  ],
  "music": {

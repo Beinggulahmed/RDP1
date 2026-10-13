@@ -89,11 +89,11 @@ NARR_HIGHLIGHTS = {
 PLAN = [
     {"id": "open", "type": "clip", "src_start": 50.3, "dur": 19.2, "orig_audio": True, "zoom": [1.0, 1.05], "fade_in": 0.8, "fade_out": 0.5,
      "note": "Cold open: 'One couple. That means a date... Only what girl?'"},
-    {"id": "title", "type": "card", "still_from": 13.5, "dur": 6.0, "blur": 26, "dark": 0.45, "fade_in": 0.5, "fade_out": 0.4,
+    {"id": "title", "type": "card", "still_from": 13.5, "dur": 6.0, "blur": 28, "dark": 0.62, "fade_in": 0.5, "fade_out": 0.4,
      "narr": "n01", "note": "Title card over blurred ticket close-up; narration n01 begins"},
     {"id": "b01", "type": "clip", "src_start": 12.0, "orig_audio": False, "zoom": [1.0, 1.08], "fade_in": 0.4, "fade_out": 0.5,
      "broll_for": "n01", "note": "B-roll: ticket close-up and Woody reading the note"},
-    {"id": "s1a", "type": "clip", "src_start": 71.1, "dur": 17.4, "orig_audio": True, "zoom": [1.0, 1.04], "fade_in": 0.4, "fade_out": 0.3,
+    {"id": "s1a", "type": "clip", "src_start": 71.1, "dur": 11.0, "orig_audio": True, "zoom": [1.0, 1.04], "fade_in": 0.4, "fade_out": 0.3,
      "chapter": "I. Choosing the girl", "note": "'How do you choose a date?' - looks, Janice"},
     {"id": "s1b", "type": "clip", "src_start": 120.4, "dur": 15.4, "orig_audio": True, "zoom": [1.03, 1.0], "fade_in": 0.3, "fade_out": 0.5,
      "note": "'What about Ann? ... He wants to know he's appreciated.'"},
@@ -117,15 +117,13 @@ PLAN = [
      "broll_for": "n04", "after": "b04a", "note": "B-roll: Woody at the mirror"},
     {"id": "s4a", "type": "clip", "src_start": 647.0, "dur": 14.4, "orig_audio": True, "zoom": [1.0, 1.04], "fade_in": 0.4, "fade_out": 0.4,
      "chapter": "IV. Saying good night", "note": "'How do you say good night?' - the 1 a.m. ending"},
-    {"id": "s4b", "type": "clip", "src_start": 679.8, "dur": 10.2, "orig_audio": True, "zoom": [1.0, 1.03], "fade_in": 0.3, "fade_out": 0.3,
-     "note": "'Well, so long.' - the abrupt ending"},
     {"id": "s4c", "type": "clip", "src_start": 697.9, "dur": 24.2, "orig_audio": True, "zoom": [1.0, 1.05], "fade_in": 0.3, "fade_out": 0.6,
      "note": "The approved good night"},
-    {"id": "b05a", "type": "clip", "src_start": 604.0, "dur": 18.0, "orig_audio": False, "zoom": [1.0, 1.06], "fade_in": 0.5, "fade_out": 0.0,
+    {"id": "b05a", "type": "clip", "src_start": 603.0, "dur": 22.5, "orig_audio": False, "zoom": [1.0, 1.06], "fade_in": 0.5, "fade_out": 0.0,
      "narr": "n05", "note": "B-roll: carnival; narration n05"},
     {"id": "b05b", "type": "clip", "src_start": 722.0, "orig_audio": False, "zoom": [1.0, 1.05], "fade_in": 0.0, "fade_out": 1.0,
-     "broll_for": "n05", "after": "b05a", "max_dur": 22.5, "note": "B-roll: Woody walks home; The End card"},
-    {"id": "credits", "type": "card", "dur": 12.0, "colour": "0x0b0a09", "fade_in": 0.6, "fade_out": 1.2, "note": "Credits and rights card"},
+     "broll_for": "n05", "after": "b05a", "max_dur": 23.2, "note": "B-roll: Woody walks home; The End card"},
+    {"id": "credits", "type": "card", "dur": 10.0, "colour": "0x0b0a09", "fade_in": 0.6, "fade_out": 1.2, "note": "Credits and rights card"},
 ]
 
 NARR_TAIL = 1.3  # seconds of picture after narration ends
@@ -150,14 +148,49 @@ def parse_vtt_words(path):
     return words
 
 
-def group_words(words, max_chars=58, max_gap=0.9):
-    """Group timed words into subtitle lines."""
+def align_script(script_text, whisper_words):
+    """Give every script word a time by aligning it to the Whisper words of the
+    synthesised clip (same word order; Whisper may mis-hear a few words)."""
+    import difflib
+    sw = script_text.split()
+    norm = lambda w: re.sub(r"[^a-z0-9]", "", w.lower())
+    a = [norm(w) for w in sw]
+    b = [norm(w[2]) for w in whisper_words]
+    sm = difflib.SequenceMatcher(a=a, b=b, autojunk=False)
+    times = [None] * len(sw)
+    for tag, i1, i2, j1, j2 in sm.get_opcodes():
+        if tag == "equal":
+            for k in range(i2 - i1):
+                times[i1 + k] = (whisper_words[j1 + k][0], whisper_words[j1 + k][1])
+        elif tag == "replace" and (i2 - i1) == (j2 - j1):
+            for k in range(i2 - i1):
+                times[i1 + k] = (whisper_words[j1 + k][0], whisper_words[j1 + k][1])
+    # interpolate gaps
+    n = len(sw)
+    for i in range(n):
+        if times[i] is None:
+            prev = next((times[j][1] for j in range(i - 1, -1, -1) if times[j]), 0.0)
+            nxt_i = next((j for j in range(i + 1, n) if times[j]), None)
+            nxt = times[nxt_i][0] if nxt_i is not None else prev + 0.4 * (n - i)
+            span_n = (nxt_i if nxt_i is not None else n) - i
+            step = max(0.05, (nxt - prev) / (span_n + 1))
+            times[i] = (prev + step * 0.2, prev + step)
+            times[i] = (round(times[i][0], 3), round(times[i][1], 3))
+    return [(t[0], t[1], w) for t, w in zip(times, sw)]
+
+
+def group_words(words, max_chars=56, max_gap=0.8):
+    """Group timed words into subtitle lines, breaking at punctuation."""
     lines, cur = [], []
+    def cur_len():
+        return len(" ".join(x[2] for x in cur))
     for w in words:
-        if cur and (len(" ".join(x[2] for x in cur)) + len(w[2]) + 1 > max_chars or w[0] - cur[-1][1] > max_gap):
+        if cur and (cur_len() + len(w[2]) + 1 > max_chars or w[0] - cur[-1][1] > max_gap):
             lines.append(cur); cur = []
         cur.append(w)
-        if re.search(r"[.!?]$", w[2]) and len(" ".join(x[2] for x in cur)) > 24:
+        if re.search(r"[.!?]$", w[2]) and cur_len() > 18:
+            lines.append(cur); cur = []
+        elif re.search(r"[,;:]$", w[2]) and cur_len() > 36:
             lines.append(cur); cur = []
     if cur:
         lines.append(cur)
@@ -179,7 +212,7 @@ def main():
     # narration durations
     ndur = {}
     for n in ["n01", "n02", "n03", "n04", "n05"]:
-        p = os.path.join(a.narration_dir, n + ".mp3")
+        p = os.path.join(a.narration_dir, n + ".48k.wav")
         ndur[n] = ffprobe_dur(p) if os.path.exists(p) else {"n01": 19, "n02": 27, "n03": 30, "n04": 29, "n05": 40}[n]
 
     # resolve B-roll durations
@@ -206,7 +239,7 @@ def main():
     narration = []
     for s in segs:
         if "narr" in s:
-            narration.append({"id": s["narr"], "file": os.path.join(a.narration_dir, s["narr"] + ".mp3"), "at": round(s["t0"] + 0.6, 3)})
+            narration.append({"id": s["narr"], "file": os.path.join(a.narration_dir, s["narr"] + ".48k.wav"), "at": round(s["t0"] + 0.6, 3)})
 
     edl = {
         "source": SOURCE, "source_audio": SOURCE_AUDIO, "fps": "30000/1001",
@@ -236,25 +269,32 @@ def main():
             if en - st < 0.4:
                 en = st + 1.0
             cues.append({"start": round(st, 3), "end": round(min(en, s["t0"] + s["dur"]), 3), "text": text, "style": "ORIG"})
+    script = {it["id"]: it["text"] for it in json.load(open("edit/narration.json"))}
     for n in narration:
-        words = parse_vtt_words(os.path.join(a.narration_dir, n["id"] + ".vtt"))
-        if not words:
+        wwords = parse_vtt_words(os.path.join(a.narration_dir, n["id"] + ".vtt"))
+        if not wwords:
             continue
-        for grp in group_words(words):
+        words = align_script(script[n["id"]], wwords)
+        groups = group_words(words)
+        for gi, grp in enumerate(groups):
             text = " ".join(w[2] for w in grp)
             text = highlight(text, NARR_HIGHLIGHTS.get(n["id"], []))
-            cues.append({"start": round(n["at"] + grp[0][0], 3), "end": round(n["at"] + grp[-1][1] + 0.35, 3), "text": text, "style": "NARR"})
+            st = n["at"] + grp[0][0]
+            en = n["at"] + grp[-1][1] + 0.4
+            if gi + 1 < len(groups):
+                en = min(en, n["at"] + groups[gi + 1][0][0] - 0.04)
+            cues.append({"start": round(st, 3), "end": round(en, 3), "text": text, "style": "NARR"})
     # title and credits
     tt = by_id["title"]["t0"]
-    cues.append({"start": tt + 0.3, "end": tt + by_id["title"]["dur"] + 5.5, "text": "The Strange Dating Rules\\NAmerican Schools Taught in 1949", "style": "TITLE"})
-    cues.append({"start": tt + 1.2, "end": tt + by_id["title"]["dur"] + 5.5, "text": "\\N\\N\\N\\N\\N\\NAn AI-restored archival documentary demo", "style": "SUBTITLE"})
+    cues.append({"start": tt + 0.3, "end": tt + by_id["title"]["dur"] - 0.1, "text": "The Strange Dating Rules\\NAmerican Schools Taught in 1949", "style": "TITLE"})
+    cues.append({"start": tt + 1.2, "end": tt + by_id["title"]["dur"] - 0.1, "text": "\\N\\N\\N\\N\\N\\NAn AI-restored archival documentary demo", "style": "SUBTITLE"})
     # chapters
     for s in segs:
         if "chapter" in s:
             cues.append({"start": s["t0"] + 0.4, "end": s["t0"] + 4.5, "text": s["chapter"], "style": "CHAPTER"})
     # annotations (lower-third fact cards)
     ann = [
-        ("b01", 1.0, 9.0, "Dating: Do's and Don'ts (1949)\\NCoronet Instructional Films · Glenview, Illinois · Kodachrome print"),
+        ("b01", 1.6, 10.0, "Dating: Do's and Don'ts (1949)\\NCoronet Instructional Films · Glenview, Illinois · Kodachrome print"),
         ("b02b", 0.2, 9.0, "Educational collaborator: Reuben Hill\\NResearch Professor of Family Life, University of North Carolina"),
         ("b03", 14.0, 27.0, "Median age at first marriage, 1950\\Nwomen 20.3 · men 22.8   (U.S. Census Bureau, table MS-2)"),
         ("b04a", 9.5, 19.0, "\"Teenager\" enters common use in the 1940s\\NSeventeen magazine founded 1944"),
@@ -264,10 +304,16 @@ def main():
     for sid, o0, o1, text in ann:
         s = by_id[sid]
         cues.append({"start": round(s["t0"] + o0, 3), "end": round(min(s["t0"] + o1, s["t0"] + s["dur"] + 6), 3), "text": text, "style": "ANNOT"})
-    # archival label
+    # archival label (merged across back-to-back original clips)
+    label_runs = []
     for s in segs:
         if s["type"] == "clip" and s.get("orig_audio"):
-            cues.append({"start": s["t0"] + 0.2, "end": s["t0"] + s["dur"] - 0.2, "text": "ORIGINAL AUDIO · 1949", "style": "LABEL"})
+            if label_runs and abs(label_runs[-1][1] - s["t0"]) < 0.01:
+                label_runs[-1][1] = s["t0"] + s["dur"]
+            else:
+                label_runs.append([s["t0"], s["t0"] + s["dur"]])
+    for a0, a1 in label_runs:
+        cues.append({"start": round(a0 + 0.2, 3), "end": round(a1 - 0.2, 3), "text": "ORIGINAL AUDIO · 1949", "style": "LABEL"})
     cr = by_id["credits"]
     credit_text = ("Archival film: Dating: Do's and Don'ts (Coronet Instructional Films, 1949)\\N"
                    "Prelinger Archives / Internet Archive · public domain (copyright not renewed)\\N\\N"

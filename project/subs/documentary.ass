@@ -1,0 +1,135 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 3840
+PlayResY: 2160
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: TV.709
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: NARR,Inter,86,&H00FFFFFF,&H000000FF,&H00141414,&H96000000,0,0,0,0,100,100,0.5,0,1,3,5,2,460,460,162,1
+Style: ORIG,Inter,86,&H00F2EBDD,&H000000FF,&H00141414,&H96000000,0,1,0,0,100,100,0.5,0,1,3,5,2,460,460,162,1
+Style: ANNOT,Inter,64,&H00FFFFFF,&H000000FF,&H00000000,&HA0000000,1,0,0,0,100,100,1,0,3,6,0,7,192,192,151,1
+Style: TITLE,Inter,183,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,2,0,1,0,0,5,307,307,0,1
+Style: SUBTITLE,Inter,64,&H00E8C65A,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,4,0,1,0,0,5,307,307,0,1
+Style: CHAPTER,Inter,118,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,3,0,1,6,8,7,192,192,151,1
+Style: CREDIT,Inter,64,&H00DDDDDD,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0.5,0,1,0,0,5,384,384,0,1
+Style: LABEL,Inter,47,&H00FFFFFF,&H000000FF,&H00000000,&H90000000,1,0,0,0,100,100,3,0,3,6,0,9,115,115,86,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+
+Dialogue: 1,0:00:00.20,0:00:19.00,LABEL,,0,0,0,,{\fad(200,200)}ORIGINAL AUDIO · 1949
+Dialogue: 0,0:00:00.38,0:00:01.24,ORIG,,0,0,0,,{\fad(120,120)}{\b1\c&H0088D8F5&}One couple.{\b0\c&H00FFFFFF&}
+Dialogue: 0,0:00:02.70,0:00:05.16,ORIG,,0,0,0,,{\fad(120,120)}That means a {\b1\c&H0088D8F5&}date{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:00:05.74,0:00:08.02,ORIG,,0,0,0,,{\fad(120,120)}Not like just going around with the crowd.
+Dialogue: 0,0:00:09.28,0:00:10.78,ORIG,,0,0,0,,{\fad(120,120)}Just me and the girl.
+Dialogue: 0,0:00:11.98,0:00:13.88,ORIG,,0,0,0,,{\fad(120,120)}Well, that's all right.
+Dialogue: 0,0:00:15.36,0:00:17.56,ORIG,,0,0,0,,{\fad(120,120)}Only... {\b1\c&H0088D8F5&}what girl?{\b0\c&H00FFFFFF&}
+Dialogue: 0,0:00:18.46,0:00:19.20,ORIG,,0,0,0,,{\fad(120,120)}Who?
+Dialogue: 0,0:00:19.50,0:00:25.10,TITLE,,0,0,0,,{\fad(600,600)}The Strange Dating Rules\\NAmerican Schools Taught in 1949
+Dialogue: 0,0:00:19.80,0:00:24.00,NARR,,0,0,0,,{\fad(120,120)}In {\b1\c&H00E8C65A&}1949{\b0\c&H00FFFFFF&}, Coronet Instructional Films of Glenview,
+Dialogue: 0,0:00:20.40,0:00:25.10,SUBTITLE,,0,0,0,,{\fad(600,600)}\\N\\N\\N\\N\\N\\NAn AI-restored archival documentary demo
+Dialogue: 0,0:00:24.04,0:00:27.26,NARR,,0,0,0,,{\fad(120,120)}Illinois, shot this {\b1\c&H00E8C65A&}color{\b0\c&H00FFFFFF&} film for American high school
+Dialogue: 1,0:00:26.80,0:00:35.20,ANNOT,,0,0,0,,{\fad(250,250)}Dating: Do's and Don'ts (1949)\\NCoronet Instructional Films · Glenview, Illinois · Kodachrome print
+Dialogue: 0,0:00:27.30,0:00:31.34,NARR,,0,0,0,,{\fad(120,120)}{\b1\c&H00E8C65A&}classrooms{\b0\c&H00FFFFFF&}. Its subject was not algebra or hygiene.
+Dialogue: 0,0:00:31.42,0:00:33.18,NARR,,0,0,0,,{\fad(120,120)}It was how to go on a {\b1\c&H00E8C65A&}date{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:00:33.36,0:00:35.60,NARR,,0,0,0,,{\fad(120,120)}So what exactly were teenagers being {\b1\c&H00E8C65A&}taught{\b0\c&H00FFFFFF&},
+Dialogue: 0,0:00:35.64,0:00:38.54,NARR,,0,0,0,,{\fad(120,120)}and why were adults so {\b1\c&H00E8C65A&}anxious{\b0\c&H00FFFFFF&} to teach it?
+Dialogue: 1,0:00:39.80,0:01:05.80,LABEL,,0,0,0,,{\fad(200,200)}ORIGINAL AUDIO · 1949
+Dialogue: 0,0:00:39.84,0:00:42.12,ORIG,,0,0,0,,{\fad(120,120)}{\b1\c&H0088D8F5&}How do you choose a date?{\b0\c&H00FFFFFF&}
+Dialogue: 0,0:00:40.00,0:00:44.10,CHAPTER,,0,0,0,,{\fad(600,600)}I. Choosing the girl
+Dialogue: 0,0:00:43.14,0:00:44.56,ORIG,,0,0,0,,{\fad(120,120)}Whose company would you enjoy?
+Dialogue: 0,0:00:45.86,0:00:48.16,ORIG,,0,0,0,,{\fad(120,120)}Well, one thing you can consider is {\b1\c&H0088D8F5&}looks{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:00:50.84,0:00:51.88,ORIG,,0,0,0,,{\fad(120,120)}What about Ann?
+Dialogue: 0,0:00:52.76,0:00:56.50,ORIG,,0,0,0,,{\fad(120,120)}She knows how to have a good time, and how to make the fellow with her {\b1\c&H0088D8F5&}relax{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:00:56.74,0:00:57.52,ORIG,,0,0,0,,{\fad(120,120)}Have fun, too.
+Dialogue: 0,0:00:59.06,0:01:00.90,ORIG,,0,0,0,,{\fad(120,120)}Yes, that's what a boy likes.
+Dialogue: 0,0:01:01.40,0:01:03.08,ORIG,,0,0,0,,{\fad(120,120)}He wants to know he's {\b1\c&H0088D8F5&}appreciated{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:01:03.90,0:01:05.46,ORIG,,0,0,0,,{\fad(120,120)}Ann would be fun on a date.
+Dialogue: 0,0:01:06.60,0:01:10.06,NARR,,0,0,0,,{\fad(120,120)}Notice the {\b1\c&H00E8C65A&}rule{\b0\c&H00FFFFFF&}. A girl is measured by how she makes a
+Dialogue: 0,0:01:10.10,0:01:13.90,NARR,,0,0,0,,{\fad(120,120)}boy feel: {\b1\c&H00E8C65A&}appreciated{\b0\c&H00FFFFFF&}, {\b1\c&H00E8C65A&}relaxed{\b0\c&H00FFFFFF&}, never {\b1\c&H00E8C65A&}inferior{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:01:13.98,0:01:15.52,NARR,,0,0,0,,{\fad(120,120)}That was no accident.
+Dialogue: 0,0:01:15.82,0:01:18.86,NARR,,0,0,0,,{\fad(120,120)}The film's educational collaborator was {\b1\c&H00E8C65A&}Reuben Hill{\b0\c&H00FFFFFF&},
+Dialogue: 0,0:01:18.90,0:01:21.52,NARR,,0,0,0,,{\fad(120,120)}a family sociologist at the University of North
+Dialogue: 0,0:01:21.56,0:01:24.80,NARR,,0,0,0,,{\fad(120,120)}Carolina, and after the war Coronet produced {\b1\c&H00E8C65A&}scores{\b0\c&H00FFFFFF&} of
+Dialogue: 1,0:01:23.80,0:01:32.60,ANNOT,,0,0,0,,{\fad(250,250)}Educational collaborator: Reuben Hill\\NResearch Professor of Family Life, University of North Carolina
+Dialogue: 0,0:01:24.84,0:01:26.70,NARR,,0,0,0,,{\fad(120,120)}these social guidance films.
+Dialogue: 0,0:01:27.08,0:01:29.90,NARR,,0,0,0,,{\fad(120,120)}Historian Ken Smith calls them a postwar morality
+Dialogue: 0,0:01:29.94,0:01:32.74,NARR,,0,0,0,,{\fad(120,120)}offensive by educators, psychologists,
+Dialogue: 0,0:01:32.78,0:01:33.72,NARR,,0,0,0,,{\fad(120,120)}and the clergy.
+Dialogue: 1,0:01:35.10,0:01:51.70,LABEL,,0,0,0,,{\fad(200,200)}ORIGINAL AUDIO · 1949
+Dialogue: 0,0:01:35.18,0:01:37.24,ORIG,,0,0,0,,{\fad(120,120)}Ann? This is Woody.
+Dialogue: 0,0:01:35.30,0:01:39.40,CHAPTER,,0,0,0,,{\fad(600,600)}II. Asking for a date
+Dialogue: 0,0:01:38.22,0:01:42.78,ORIG,,0,0,0,,{\fad(120,120)}Well, I have a ticket for the Hi-Teen Carnival Saturday, and...
+Dialogue: 0,0:01:42.78,0:01:43.74,ORIG,,0,0,0,,{\fad(120,120)}Well, would you like to go?
+Dialogue: 0,0:01:45.20,0:01:46.16,ORIG,,0,0,0,,{\fad(120,120)}Why, yes, Woody.
+Dialogue: 0,0:01:46.78,0:01:48.48,ORIG,,0,0,0,,{\fad(120,120)}I'll have to talk to {\b1\c&H0088D8F5&}my folks{\b0\c&H00FFFFFF&} about it.
+Dialogue: 0,0:01:48.58,0:01:51.48,ORIG,,0,0,0,,{\fad(120,120)}But I think I can go. That'll be fine.
+Dialogue: 0,0:01:52.50,0:01:55.26,NARR,,0,0,0,,{\fad(120,120)}Every wrong turn is a lesson in a {\b1\c&H00E8C65A&}code{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:01:55.40,0:01:58.28,NARR,,0,0,0,,{\fad(120,120)}The boy {\b1\c&H00E8C65A&}initiates{\b0\c&H00FFFFFF&}, offers a concrete plan,
+Dialogue: 0,0:01:58.32,0:02:00.66,NARR,,0,0,0,,{\fad(120,120)}names a time, and her parents hold a {\b1\c&H00E8C65A&}veto{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:02:01.20,0:02:03.98,NARR,,0,0,0,,{\fad(120,120)}Historian Beth Bailey has shown how the prewar ideal of
+Dialogue: 0,0:02:04.02,0:02:06.70,NARR,,0,0,0,,{\fad(120,120)}{\b1\c&H00E8C65A&}popularity{\b0\c&H00FFFFFF&}, measured by how many different people you
+Dialogue: 1,0:02:05.90,0:02:18.90,ANNOT,,0,0,0,,{\fad(250,250)}Median age at first marriage, 1950\\Nwomen 20.3 · men 22.8   (U.S. Census Bureau, table MS-2)
+Dialogue: 0,0:02:06.74,0:02:09.72,NARR,,0,0,0,,{\fad(120,120)}dated, gave way after the war to pairing off and going
+Dialogue: 0,0:02:09.76,0:02:12.26,NARR,,0,0,0,,{\fad(120,120)}steady. The stakes were real.
+Dialogue: 0,0:02:12.44,0:02:15.92,NARR,,0,0,0,,{\fad(120,120)}In 1950 the median American bride was {\b1\c&H00E8C65A&}twenty{\b0\c&H00FFFFFF&},
+Dialogue: 0,0:02:15.96,0:02:18.62,NARR,,0,0,0,,{\fad(120,120)}the groom {\b1\c&H00E8C65A&}twenty-two{\b0\c&H00FFFFFF&}, among the {\b1\c&H00E8C65A&}youngest{\b0\c&H00FFFFFF&} the Census
+Dialogue: 0,0:02:18.66,0:02:20.52,NARR,,0,0,0,,{\fad(120,120)}Bureau has ever recorded.
+Dialogue: 0,0:02:21.90,0:02:25.14,ORIG,,0,0,0,,{\fad(120,120)}Well, if you don't {\b1\c&H0088D8F5&}overdo{\b0\c&H00FFFFFF&} on dating...
+Dialogue: 1,0:02:21.90,0:02:51.30,LABEL,,0,0,0,,{\fad(200,200)}ORIGINAL AUDIO · 1949
+Dialogue: 0,0:02:22.10,0:02:26.20,CHAPTER,,0,0,0,,{\fad(600,600)}III. The rules at home
+Dialogue: 0,0:02:26.06,0:02:29.44,ORIG,,0,0,0,,{\fad(120,120)}Ed knows what I mean. {\b1\c&H0088D8F5&}Weekends only{\b0\c&H00FFFFFF&}, and not too late.
+Dialogue: 0,0:02:29.98,0:02:33.60,ORIG,,0,0,0,,{\fad(120,120)}I think the important thing about a date is to {\b1\c&H0088D8F5&}have a good time{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:02:34.24,0:02:36.54,ORIG,,0,0,0,,{\fad(120,120)}You don't need to spend a lot of money to do that.
+Dialogue: 0,0:02:37.24,0:02:43.08,ORIG,,0,0,0,,{\fad(120,120)}You just enjoy whatever you do, whether it's movies or parties or anything.
+Dialogue: 0,0:02:43.82,0:02:46.56,ORIG,,0,0,0,,{\fad(120,120)}And you leave your boyfriend {\b1\c&H0088D8F5&}enough money{\b0\c&H00FFFFFF&}, so he'll ask you again.
+Dialogue: 0,0:02:47.18,0:02:50.94,ORIG,,0,0,0,,{\fad(120,120)}Any girl who can't be {\b1\c&H0088D8F5&}ready on time{\b0\c&H00FFFFFF&} for a date isn't good enough for my boy.
+Dialogue: 0,0:02:52.10,0:02:54.48,NARR,,0,0,0,,{\fad(120,120)}The {\b1\c&H00E8C65A&}economics{\b0\c&H00FFFFFF&} are just as explicit.
+Dialogue: 0,0:02:54.58,0:02:57.40,NARR,,0,0,0,,{\fad(120,120)}He {\b1\c&H00E8C65A&}pays{\b0\c&H00FFFFFF&}. She protects his {\b1\c&H00E8C65A&}wallet{\b0\c&H00FFFFFF&}, so there will be a
+Dialogue: 0,0:02:57.44,0:02:59.62,NARR,,0,0,0,,{\fad(120,120)}second date. Her parents set the {\b1\c&H00E8C65A&}curfew{\b0\c&H00FFFFFF&},
+Dialogue: 0,0:02:59.66,0:03:01.64,NARR,,0,0,0,,{\fad(120,120)}and his mother sets the {\b1\c&H00E8C65A&}schedule{\b0\c&H00FFFFFF&}.
+Dialogue: 1,0:03:01.00,0:03:10.50,ANNOT,,0,0,0,,{\fad(250,250)}"Teenager" enters common use in the 1940s\\NSeventeen magazine founded 1944
+Dialogue: 0,0:03:01.78,0:03:03.74,NARR,,0,0,0,,{\fad(120,120)}The audience for all this was new.
+Dialogue: 0,0:03:03.92,0:03:06.80,NARR,,0,0,0,,{\fad(120,120)}The word {\b1\c&H00E8C65A&}teenager{\b0\c&H00FFFFFF&} only entered everyday American speech
+Dialogue: 0,0:03:06.84,0:03:10.44,NARR,,0,0,0,,{\fad(120,120)}in the {\b1\c&H00E8C65A&}1940s{\b0\c&H00FFFFFF&}, pushed by advertisers and by magazines
+Dialogue: 0,0:03:10.48,0:03:13.68,NARR,,0,0,0,,{\fad(120,120)}like {\b1\c&H00E8C65A&}Seventeen{\b0\c&H00FFFFFF&}, founded in {\b1\c&H00E8C65A&}1944{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:03:14.26,0:03:16.76,NARR,,0,0,0,,{\fad(120,120)}Adults were writing rules for a generation with spending
+Dialogue: 0,0:03:16.80,0:03:20.22,NARR,,0,0,0,,{\fad(120,120)}money of its own, and evenings far from the {\b1\c&H00E8C65A&}front porch{\b0\c&H00FFFFFF&}.
+Dialogue: 1,0:03:21.55,0:03:59.75,LABEL,,0,0,0,,{\fad(200,200)}ORIGINAL AUDIO · 1949
+Dialogue: 0,0:03:21.63,0:03:24.07,ORIG,,0,0,0,,{\fad(120,120)}But {\b1\c&H0088D8F5&}how do you say good night?{\b0\c&H00FFFFFF&}
+Dialogue: 0,0:03:21.75,0:03:25.85,CHAPTER,,0,0,0,,{\fad(600,600)}IV. Saying good night
+Dialogue: 0,0:03:26.77,0:03:27.21,ORIG,,0,0,0,,{\fad(120,120)}Perhaps...
+Dialogue: 0,0:03:29.29,0:03:30.45,ORIG,,0,0,0,,{\fad(120,120)}Don't leave!
+Dialogue: 0,0:03:33.79,0:03:35.21,ORIG,,0,0,0,,{\fad(120,120)}{\b1\c&H0088D8F5&}1 a.m.{\b0\c&H00FFFFFF&}
+Dialogue: 0,0:03:36.01,0:03:38.19,ORIG,,0,0,0,,{\fad(120,120)}Well, it's getting late.
+Dialogue: 0,0:03:38.67,0:03:39.59,ORIG,,0,0,0,,{\fad(120,120)}Yes, it is.
+Dialogue: 0,0:03:40.15,0:03:42.33,ORIG,,0,0,0,,{\fad(120,120)}I'd ask you in for a bite to eat if it weren't so late.
+Dialogue: 0,0:03:43.85,0:03:47.27,ORIG,,0,0,0,,{\fad(120,120)}Let's plan to get home in time for a {\b1\c&H0088D8F5&}sandwich{\b0\c&H00FFFFFF&} or something next time.
+Dialogue: 0,0:03:47.75,0:03:49.19,ORIG,,0,0,0,,{\fad(120,120)}Say, that sounds good.
+Dialogue: 0,0:03:49.65,0:03:50.71,ORIG,,0,0,0,,{\fad(120,120)}I'll {\b1\c&H0088D8F5&}call you{\b0\c&H00FFFFFF&} next week.
+Dialogue: 0,0:03:51.03,0:03:51.47,ORIG,,0,0,0,,{\fad(120,120)}Will you?
+Dialogue: 0,0:03:52.27,0:03:54.47,ORIG,,0,0,0,,{\fad(120,120)}Well, thanks so much.
+Dialogue: 0,0:03:54.87,0:03:55.97,ORIG,,0,0,0,,{\fad(120,120)}I had a nice time.
+Dialogue: 0,0:03:56.67,0:03:57.23,ORIG,,0,0,0,,{\fad(120,120)}So did I.
+Dialogue: 0,0:03:57.79,0:03:58.45,ORIG,,0,0,0,,{\fad(120,120)}Good night, Woody.
+Dialogue: 0,0:03:59.03,0:03:59.49,ORIG,,0,0,0,,{\fad(120,120)}Night, Ann.
+Dialogue: 0,0:04:00.55,0:04:04.31,NARR,,0,0,0,,{\fad(120,120)}So what does this film reveal about America in 1949?
+Dialogue: 0,0:04:04.83,0:04:06.97,NARR,,0,0,0,,{\fad(120,120)}A country just out of a war wanted {\b1\c&H00E8C65A&}order{\b0\c&H00FFFFFF&},
+Dialogue: 0,0:04:07.01,0:04:10.13,NARR,,0,0,0,,{\fad(120,120)}and it wanted it {\b1\c&H00E8C65A&}early{\b0\c&H00FFFFFF&}: marriage in your early twenties,
+Dialogue: 0,0:04:10.17,0:04:13.31,NARR,,0,0,0,,{\fad(120,120)}after a courtship run by rules everyone could recite.
+Dialogue: 1,0:04:10.95,0:04:19.95,ANNOT,,0,0,0,,{\fad(250,250)}Median age at first marriage, 2024\\Nwomen 28.6 · men 30.5   (NCFMR / American Community Survey)
+Dialogue: 0,0:04:13.67,0:04:16.97,NARR,,0,0,0,,{\fad(120,120)}The year before, Alfred {\b1\c&H00E8C65A&}Kinsey{\b0\c&H00FFFFFF&}'s report on male sexual
+Dialogue: 0,0:04:17.01,0:04:20.49,NARR,,0,0,0,,{\fad(120,120)}behavior had become a {\b1\c&H00E8C65A&}best seller{\b0\c&H00FFFFFF&} by documenting how far
+Dialogue: 0,0:04:20.53,0:04:22.85,NARR,,0,0,0,,{\fad(120,120)}real behavior strayed from the script.
+Dialogue: 0,0:04:23.19,0:04:26.09,NARR,,0,0,0,,{\fad(120,120)}Today the median American first marries at around {\b1\c&H00E8C65A&}thirty{\b0\c&H00FFFFFF&}
+Dialogue: 1,0:04:24.45,0:04:33.45,ANNOT,,0,0,0,,{\fad(250,250)}Copyright registered 1949 (MP5069)\\NNo renewal found in the 1976–1977 Catalog of Copyright Entries
+Dialogue: 0,0:04:26.13,0:04:28.47,NARR,,0,0,0,,{\fad(120,120)}for men and {\b1\c&H00E8C65A&}twenty-eight{\b0\c&H00FFFFFF&} for women.
+Dialogue: 0,0:04:28.77,0:04:31.79,NARR,,0,0,0,,{\fad(120,120)}The film itself survives in the {\b1\c&H00E8C65A&}public domain{\b0\c&H00FFFFFF&},
+Dialogue: 0,0:04:31.83,0:04:36.41,NARR,,0,0,0,,{\fad(120,120)}because no renewal of its 1949 copyright has ever been
+Dialogue: 0,0:04:36.45,0:04:39.69,NARR,,0,0,0,,{\fad(120,120)}found. A reminder that the good night at the door was
+Dialogue: 0,0:04:39.73,0:04:41.69,NARR,,0,0,0,,{\fad(120,120)}never only about {\b1\c&H00E8C65A&}manners{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:04:41.85,0:04:43.75,NARR,,0,0,0,,{\fad(120,120)}It was about who got to {\b1\c&H00E8C65A&}decide{\b0\c&H00FFFFFF&}.
+Dialogue: 0,0:04:45.47,0:04:54.17,CREDIT,,0,0,0,,{\fad(600,600)}Archival film: Dating: Do's and Don'ts (Coronet Instructional Films, 1949)\\NPrelinger Archives / Internet Archive · public domain (copyright not renewed)\\N\\NMusic: Kevin MacLeod (incompetech.com) · Licensed under Creative Commons: By Attribution 4.0\\NNarration: synthetic voice (Microsoft neural TTS) · Restoration and edit: FFmpeg pipeline\\N\\NSources: Bailey, From Front Porch to Back Seat (1988) · Smith, Mental Hygiene (1999) · U.S. Census Bureau MS-2 · NCFMR\\NFull citations in SOURCES.md and COPYRIGHT_REPORT.md

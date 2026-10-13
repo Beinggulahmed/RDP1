@@ -55,7 +55,7 @@ Style: ORIG,Inter,{fs},&H00F2EBDD,&H000000FF,&H00141414,&H96000000,0,1,0,0,100,1
 Style: ANNOT,Inter,{fs_small},&H00FFFFFF,&H000000FF,&H00000000,&HA0000000,1,0,0,0,100,100,1,0,3,{max(2,fs_small//10)},0,7,{int(w*0.05)},{int(w*0.05)},{int(h*0.07)},1
 Style: TITLE,Inter,{fs_title},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,2,0,1,0,0,5,{int(w*0.08)},{int(w*0.08)},0,1
 Style: SUBTITLE,Inter,{fs_small},&H00E8C65A,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,4,0,1,0,0,5,{int(w*0.08)},{int(w*0.08)},0,1
-Style: CHAPTER,Inter,{fs_chap},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,3,0,1,0,0,1,{int(w*0.06)},{int(w*0.06)},{int(h*0.08)},1
+Style: CHAPTER,Inter,{fs_chap},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,3,0,1,{max(2,fs_chap//18)},{max(2,fs_chap//14)},7,{int(w*0.05)},{int(w*0.05)},{int(h*0.07)},1
 Style: CREDIT,Inter,{fs_small},&H00DDDDDD,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0.5,0,1,0,0,5,{int(w*0.1)},{int(w*0.1)},0,1
 Style: LABEL,Inter,{int(h*0.022)},&H00FFFFFF,&H000000FF,&H00000000,&H90000000,1,0,0,0,100,100,3,0,3,{max(2,fs_small//10)},0,9,{int(w*0.03)},{int(w*0.03)},{int(h*0.04)},1
 
