@@ -8,7 +8,7 @@ into a short, restored, narrated documentary. The pilot output is
 
 | File | What it is |
 |---|---|
-| `deliverables/FINAL_DOCUMENTARY_4K.mp4` | 3840×2160, H.264, AAC — published as a GitHub release asset (see DELIVERABLES.md) |
+| `deliverables/FINAL_DOCUMENTARY_4K.mp4` | 3840×2160, H.264, AAC — published as a GitHub release asset (see DELIVERABLES.md for link and SHA-256) |
 | `deliverables/PREVIEW_1080P.mp4` | 1920×1080 review copy |
 | `COPYRIGHT_REPORT.md` | rights verification with evidence |
 | `SCRIPT.md` | full script: original excerpts + new commentary with source tags |
