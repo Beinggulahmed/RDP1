@@ -25,6 +25,9 @@ import os
 import subprocess
 import sys
 
+SEG_PRESET = os.environ.get("X264_PRESET_SEG", "fast")
+FINAL_PRESET = os.environ.get("X264_PRESET_FINAL", "medium")
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 
@@ -81,7 +84,7 @@ def render_clip(edl, seg, out, w, h):
     vf.append("format=yuv420p")
     run(["ffmpeg", "-v", "error", "-y", "-ss", str(seg["src_start"]), "-i", edl["source"], "-t", str(dur), "-an",
          "-vf", ",".join(vf), "-r", edl.get("fps", "30000/1001"),
-         "-c:v", "libx264", "-preset", "medium", "-crf", "12", "-pix_fmt", "yuv420p",
+         "-c:v", "libx264", "-preset", SEG_PRESET, "-crf", "13", "-pix_fmt", "yuv420p",
          "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", out])
 
 
@@ -101,12 +104,12 @@ def render_card(edl, seg, out, w, h):
         nframes = dur * eval(fps)
         vf2 = f"zoompan=z='{z0}+({z1}-{z0})*in/{nframes:.2f}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={w}x{h}:fps={fps}{fades},format=yuv420p"
         run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-framerate", fps, "-i", out + ".still.png", "-t", str(dur),
-             "-vf", vf2, "-r", fps, "-c:v", "libx264", "-preset", "medium", "-crf", "12", "-pix_fmt", "yuv420p",
+             "-vf", vf2, "-r", fps, "-c:v", "libx264", "-preset", SEG_PRESET, "-crf", "13", "-pix_fmt", "yuv420p",
              "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", out])
     else:
         colour = seg.get("colour", "0x0d0b09")
         run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", f"color=c={colour}:s={w}x{h}:r={fps}:d={dur}",
-             "-vf", f"format=yuv420p{fades}", "-c:v", "libx264", "-preset", "medium", "-crf", "12", "-pix_fmt", "yuv420p",
+             "-vf", f"format=yuv420p{fades}", "-c:v", "libx264", "-preset", SEG_PRESET, "-crf", "13", "-pix_fmt", "yuv420p",
              "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", out])
 
 
@@ -147,17 +150,18 @@ def build_audio(edl, out_dir):
         if seg["type"] != "clip" or not seg.get("orig_audio"):
             continue
         gain = -12 if seg.get("orig_audio") == "low" else 0
-        inputs += ["-ss", str(seg["src_start"]), "-t", str(seg["dur"]), "-i", edl["source_audio"]]
+        inputs += ["-i", edl["source_audio"]]
         fi, fo = float(seg.get("afade_in", 0.15)), float(seg.get("afade_out", 0.25))
-        filt.append(f"[{idx}:a]aresample=48000,highpass=f=70,lowpass=f=7500,afftdn=nf=-28:nr=12,"
+        a0, a1 = float(seg["src_start"]), float(seg["src_start"]) + float(seg["dur"])
+        filt.append(f"[{idx}:a]atrim={a0:.3f}:{a1:.3f},asetpts=PTS-STARTPTS,aresample=48000,highpass=f=70,lowpass=f=7500,afftdn=nf=-28:nr=12,"
                     f"afade=t=in:st=0:d={fi},afade=t=out:st={float(seg['dur']) - fo:.3f}:d={fo},"
-                    f"volume={gain}dB,adelay={int(starts[seg['id']] * 1000)}|{int(starts[seg['id']] * 1000)}[o{idx}]")
+                    f"volume={gain}dB,adelay={int(starts[seg['id']] * 1000)}|{int(starts[seg['id']] * 1000)},asetpts=PTS-STARTPTS[o{idx}]")
         orig_labels.append(f"[o{idx}]")
         idx += 1
     for n in edl.get("narration", []):
         inputs += ["-i", n["file"]]
         filt.append(f"[{idx}:a]aresample=48000,aformat=channel_layouts=stereo,"
-                    f"loudnorm=I=-16:TP=-1.5:LRA=9,adelay={int(float(n['at']) * 1000)}|{int(float(n['at']) * 1000)}[n{idx}]")
+                    f"loudnorm=I=-16:TP=-1.5:LRA=9,aresample=48000,adelay={int(float(n['at']) * 1000)}|{int(float(n['at']) * 1000)},asetpts=PTS-STARTPTS[n{idx}]")
         narr_labels.append(f"[n{idx}]")
         idx += 1
     m = edl.get("music")
@@ -166,7 +170,7 @@ def build_audio(edl, out_dir):
         inputs += ["-stream_loop", "-1", "-i", m["file"]]
         fo = float(m.get("fade_out", 6))
         filt.append(f"[{idx}:a]aresample=48000,aformat=channel_layouts=stereo,atrim=0:{total:.3f},"
-                    f"loudnorm=I=-18:TP=-2:LRA=11,volume={m.get('gain_db', -14)}dB,"
+                    f"loudnorm=I=-18:TP=-2:LRA=11,aresample=48000,volume={m.get('gain_db', -14)}dB,"
                     f"afade=t=in:st=0:d=3,afade=t=out:st={total - fo:.3f}:d={fo}[m]")
         music_label = "[m]"
         idx += 1
@@ -177,7 +181,7 @@ def build_audio(edl, out_dir):
         elif len(labels) == 1:
             filt.append(f"{labels[0]}apad=whole_dur={total:.3f},atrim=0:{total:.3f}[{name}]")
         else:
-            filt.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:dropout_transition=0,apad=whole_dur={total:.3f},atrim=0:{total:.3f}[{name}]")
+            filt.append(f"{''.join(labels)}amix=inputs={len(labels)}:normalize=0:dropout_transition=0,asetpts=PTS-STARTPTS,apad=whole_dur={total:.3f},atrim=0:{total:.3f}[{name}]")
     mixsum(orig_labels, "orig")
     mixsum(narr_labels, "narr")
     filt.append("[orig]asplit=2[orig_out][orig_mix]")
@@ -192,7 +196,7 @@ def build_audio(edl, out_dir):
         filt.append(f"anullsrc=r=48000:cl=stereo,atrim=0:{total:.3f}[music_out]")
         filt.append("[speech_sc]anullsink")
         filt.append("[speech_a]acopy[pre]")
-    filt.append("[pre]loudnorm=I=-14:TP=-1.5:LRA=11:linear=true[mix]")
+    filt.append("[pre]loudnorm=I=-14:TP=-1.5:LRA=11:linear=true,aresample=48000[mix]")
     cmd = ["ffmpeg", "-v", "error", "-y"] + inputs + ["-filter_complex", ";".join(filt),
            "-map", "[mix]", "-c:a", "pcm_s16le", os.path.join(out_dir, "mix.wav"),
            "-map", "[orig_out]", "-c:a", "pcm_s16le", os.path.join(out_dir, "track_original_narrator.wav"),
@@ -206,7 +210,7 @@ def build_final(edl, out_dir, w, h, video, audio, out, preview=None):
     ass = edl.get("subtitles")
     vf = f"ass={ass}" if ass else "null"
     run(["ffmpeg", "-v", "error", "-y", "-i", video, "-i", audio, "-map", "0:v", "-map", "1:a",
-         "-vf", vf, "-c:v", "libx264", "-preset", "slow", "-crf", "16", "-pix_fmt", "yuv420p",
+         "-vf", vf, "-c:v", "libx264", "-preset", FINAL_PRESET, "-crf", "16", "-pix_fmt", "yuv420p",
          "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709",
          "-c:a", "aac", "-b:a", "256k", "-ar", "48000", "-movflags", "+faststart", "-shortest", out])
     if preview:

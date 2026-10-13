@@ -92,7 +92,7 @@ final computed values).
 
 > Archival film: Dating: Do's and Don'ts (Coronet Instructional Films, 1949) · Prelinger Archives / Internet Archive · public domain (copyright not renewed)
 > Music: Kevin MacLeod (incompetech.com) · Licensed under Creative Commons: By Attribution 4.0
-> Narration: synthetic voice (Microsoft neural TTS) · Restoration and edit: FFmpeg pipeline
+> Narration: synthetic voice (Kokoro-82M open-source TTS) · Restoration and edit: FFmpeg pipeline
 > Sources: Bailey, *From Front Porch to Back Seat* (1988) · Smith, *Mental Hygiene* (1999) · U.S. Census Bureau MS-2 · NCFMR
 
 ---

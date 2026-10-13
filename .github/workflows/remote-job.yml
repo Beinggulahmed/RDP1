@@ -22,7 +22,7 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 300
+    timeout-minutes: 350
     env:
       JOB: ${{ inputs.job || 'current' }}
     steps:
@@ -49,6 +49,7 @@ jobs:
           bash "project/jobs/${JOB}.sh" 2>&1 | tee out/job_log.txt
 
       - name: Publish results as release assets
+        if: always()
         env:
           GH_TOKEN: ${{ github.token }}
         run: |

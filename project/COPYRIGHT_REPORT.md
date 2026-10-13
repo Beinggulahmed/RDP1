@@ -152,8 +152,9 @@ legal requirement for a PD work).
   for the track used*, licensed under Creative Commons Attribution 4.0
   (https://creativecommons.org/licenses/by/4.0/). Commercial use permitted;
   attribution is included in the end credits and in this report.
-- **Narration voice:** synthetic voice (Microsoft neural TTS via `edge-tts`),
-  not a clone of any real person and not an imitation of the original narrator.
+- **Narration voice:** synthetic voice generated with the open-source Kokoro-82M
+  model (Apache-2.0 weights, voice preset `af_heart`), not a clone of any real
+  person and not an imitation of the original narrator.
 - **Typeface:** Inter (SIL Open Font License 1.1).
 
 ## 9. Source URLs

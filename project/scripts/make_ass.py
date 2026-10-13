@@ -25,7 +25,7 @@ def ts(t: float) -> str:
 
 
 def esc(s: str) -> str:
-    return s.replace("\\", "\\\\").replace("{", "(").replace("}", ")").replace("\n", "\\N")
+    return s.replace("{", "(").replace("}", ")").replace("\n", "\\N")
 
 
 def mark_highlights(text: str, colour: str) -> str:
@@ -51,13 +51,13 @@ YCbCr Matrix: TV.709
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: NARR,Inter,{fs},&H00FFFFFF,&H000000FF,&H00141414,&H96000000,0,0,0,0,100,100,0.5,0,1,{max(2,fs//22)},{max(2,fs//16)},2,{int(w*0.12)},{int(w*0.12)},{mv},1
-Style: ORIG,Inter,{fs},&H00F2EBDD,&H000000FF,&H00141414,&H96000000,0,1,0,0,100,100,0.5,0,1,{max(2,fs//22)},{max(2,fs//16)},2,{int(w*0.12)},{int(w*0.12)},{mv},1
+Style: ORIG,Inter,{fs},&H00F2EBDD,&H000000FF,&H00141414,&H96000000,0,0,0,0,100,100,0.5,0,1,{max(2,fs//22)},{max(2,fs//16)},2,{int(w*0.12)},{int(w*0.12)},{mv},1
 Style: ANNOT,Inter,{fs_small},&H00FFFFFF,&H000000FF,&H00000000,&HA0000000,1,0,0,0,100,100,1,0,3,{max(2,fs_small//10)},0,7,{int(w*0.05)},{int(w*0.05)},{int(h*0.07)},1
 Style: TITLE,Inter,{fs_title},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,2,0,1,0,0,5,{int(w*0.08)},{int(w*0.08)},0,1
 Style: SUBTITLE,Inter,{fs_small},&H00E8C65A,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,4,0,1,0,0,5,{int(w*0.08)},{int(w*0.08)},0,1
 Style: CHAPTER,Inter,{fs_chap},&H00FFFFFF,&H000000FF,&H00000000,&H00000000,1,0,0,0,100,100,3,0,1,{max(2,fs_chap//18)},{max(2,fs_chap//14)},7,{int(w*0.05)},{int(w*0.05)},{int(h*0.07)},1
 Style: CREDIT,Inter,{fs_small},&H00DDDDDD,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0.5,0,1,0,0,5,{int(w*0.1)},{int(w*0.1)},0,1
-Style: LABEL,Inter,{int(h*0.022)},&H00FFFFFF,&H000000FF,&H00000000,&H90000000,1,0,0,0,100,100,3,0,3,{max(2,fs_small//10)},0,9,{int(w*0.03)},{int(w*0.03)},{int(h*0.04)},1
+Style: LABEL,Inter,{int(h*0.026)},&H00FFFFFF,&H000000FF,&H00000000,&H90000000,1,0,0,0,100,100,3,0,3,{max(2,fs_small//10)},0,9,{int(w*0.03)},{int(w*0.03)},{int(h*0.04)},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text

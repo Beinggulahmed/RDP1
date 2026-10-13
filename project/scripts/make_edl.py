@@ -318,7 +318,7 @@ def main():
     credit_text = ("Archival film: Dating: Do's and Don'ts (Coronet Instructional Films, 1949)\\N"
                    "Prelinger Archives / Internet Archive · public domain (copyright not renewed)\\N\\N"
                    "Music: Kevin MacLeod (incompetech.com) · Licensed under Creative Commons: By Attribution 4.0\\N"
-                   "Narration: synthetic voice (Microsoft neural TTS) · Restoration and edit: FFmpeg pipeline\\N\\N"
+                   "Narration: synthetic voice (Kokoro-82M open-source TTS) · Restoration and edit: FFmpeg pipeline\\N\\N"
                    "Sources: Bailey, From Front Porch to Back Seat (1988) · Smith, Mental Hygiene (1999) · U.S. Census Bureau MS-2 · NCFMR\\N"
                    "Full citations in SOURCES.md and COPYRIGHT_REPORT.md")
     cues.append({"start": cr["t0"] + 0.5, "end": cr["t0"] + cr["dur"] - 0.8, "text": credit_text, "style": "CREDIT"})
