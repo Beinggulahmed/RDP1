@@ -1,0 +1,169 @@
+name: Fetch archival source (Internet Archive)
+
+# Downloads an Internet Archive film item plus its rights/metadata evidence on a
+# GitHub-hosted runner (which has open internet), probes it with ffprobe, and
+# publishes everything as assets on a GitHub Release so the production
+# environment can pull it. Part of the archival-documentary pipeline.
+
+on:
+  workflow_dispatch:
+    inputs:
+      identifier:
+        description: "Internet Archive item identifier"
+        required: true
+        default: "DatingDo1949"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      IA_ID: ${{ inputs.identifier }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch item metadata and choose files
+        run: |
+          set -euo pipefail
+          mkdir -p out/rights out/probe
+          curl -sSL --retry 5 "https://archive.org/metadata/$IA_ID" -o out/ia_metadata.json
+          python3 - <<'PY'
+          import json
+          d = json.load(open('out/ia_metadata.json'))
+          files = d['files']
+          want = []
+          for f in files:
+              n = f['name']; src = f.get('source')
+              if src == 'original' and n.lower().endswith(('.mpeg','.mpg','.mp4','.mov','.avi','.mkv','.m2v')):
+                  want.append(n)
+              if n.lower().endswith(('_512kb.mp4','.srt','.vtt')):
+                  want.append(n)
+          want = sorted(set(want))
+          open('out/files.txt','w').write('\n'.join(want)+'\n')
+          print('Selected:', want)
+          for f in files:
+              print(f.get('name'),'|',f.get('format'),'|',f.get('size'),'|',f.get('source'))
+          PY
+
+      - name: Download selected files
+        run: |
+          set -euo pipefail
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            echo "Downloading $f"
+            curl -sSL --retry 8 --retry-all-errors "https://archive.org/download/$IA_ID/$f" -o "out/$f"
+          done < out/files.txt
+          ls -la out
+
+      - name: Probe files
+        run: |
+          set -euo pipefail
+          for f in out/*.mpeg out/*.mpg out/*.mp4 out/*.mov out/*.avi; do
+            [ -f "$f" ] || continue
+            b=$(basename "$f")
+            ffprobe -v error -show_format -show_streams -of json "$f" > "out/probe/$b.ffprobe.json"
+            ffprobe -hide_banner "$f" 2> "out/probe/$b.ffprobe.txt" || true
+          done
+          # Frames from the head and tail of the film so a copyright-notice card can be reviewed
+          first=$(ls out/*.mpeg out/*.mpg 2>/dev/null | head -1 || true)
+          [ -z "$first" ] && first=$(ls out/*.mp4 | head -1)
+          dur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$first")
+          mkdir -p out/probe/frames
+          ffmpeg -v error -ss 0 -t 25 -i "$first" -vf fps=1 out/probe/frames/head_%03d.jpg
+          ffmpeg -v error -ss $(python3 -c "print(max(0,float('$dur')-25))") -i "$first" -vf fps=1 out/probe/frames/tail_%03d.jpg
+          cd out/probe && zip -qr frames.zip frames && rm -rf frames
+
+      - name: Collect rights evidence
+        run: |
+          set -eo pipefail
+          R=out/rights
+          curl -sSL --retry 5 "https://archive.org/details/$IA_ID" -o "$R/archive_org_details.html"
+          curl -sSL --retry 5 "https://archive.org/metadata/prelinger" -o "$R/prelinger_collection_metadata.json"
+          curl -sSL --retry 5 "https://archive.org/details/prelinger" -o "$R/prelinger_collection_page.html"
+          curl -sSL --retry 5 "https://archive.org/about/terms.php" -o "$R/archive_org_terms.html"
+          curl -sSL -G --retry 5 "https://commons.wikimedia.org/w/api.php" \
+            --data-urlencode "action=query" --data-urlencode "list=search" --data-urlencode "srnamespace=6" \
+            --data-urlencode "srsearch=Dating Do's and Don'ts 1949" --data-urlencode "format=json" -o "$R/commons_search.json"
+          python3 - <<'PY'
+          import json, urllib.parse, urllib.request
+          r = json.load(open('out/rights/commons_search.json'))
+          titles = [h['title'] for h in r.get('query',{}).get('search',[])][:8]
+          print('Commons hits:', titles)
+          for t in titles:
+              q = urllib.parse.urlencode({'action':'query','prop':'revisions|imageinfo','rvprop':'content','rvslots':'main','iiprop':'url|size|mime|extmetadata','titles':t,'format':'json'})
+              req = urllib.request.Request('https://commons.wikimedia.org/w/api.php?'+q, headers={'User-Agent':'archival-doc-pipeline/1.0 (rights research)'})
+              data = urllib.request.urlopen(req).read().decode()
+              safe = t.replace('/','_').replace(':','_').replace(' ','_')
+              open(f'out/rights/commons_{safe}.json','w').write(data)
+          PY
+          for T in "Dating_Do's_and_Don'ts" "Coronet_Films" "Prelinger_Archives"; do
+            curl -sSL -G --retry 5 -A "archival-doc-pipeline/1.0" "https://en.wikipedia.org/w/api.php" \
+              --data-urlencode "action=query" --data-urlencode "prop=revisions" --data-urlencode "rvprop=content" \
+              --data-urlencode "rvslots=main" --data-urlencode "titles=$T" --data-urlencode "format=json" \
+              -o "$R/wikipedia_${T//\'/}.json"
+          done
+          curl -sSL --retry 3 -A "Mozilla/5.0" "https://www.history.com/articles/1949-dating-etiquette-school-health-film" -o "$R/history_com_article.html" || true
+          curl -sSL --retry 3 -A "Mozilla/5.0" "https://www.openculture.com/2013/09/dating-dos-and-donts.html" -o "$R/openculture_article.html" || true
+          curl -sSL --retry 3 -A "Mozilla/5.0" "https://www.tcm.com/tcmdb/title/779955/dating-dos-and-donts" -o "$R/tcm_entry.html" || true
+          # Catalog of Copyright Entries volumes (original registration 1949; renewal window 1976-1977)
+          curl -sSL -G --retry 5 "https://archive.org/advancedsearch.php" \
+            --data-urlencode 'q=title:("catalog of copyright entries") AND title:("motion pictures")' \
+            --data-urlencode "fl[]=identifier" --data-urlencode "fl[]=title" --data-urlencode "fl[]=year" \
+            --data-urlencode "rows=200" --data-urlencode "output=json" -o "$R/cce_search.json"
+          python3 - <<'PY'
+          import json, re, urllib.request
+          r = json.load(open('out/rights/cce_search.json'))
+          docs = r['response']['docs']
+          print('CCE volumes found:', len(docs))
+          out = open('out/rights/cce_grep_results.txt','w')
+          for d in docs:
+              ident = d['identifier']; title = d.get('title'); year = d.get('year')
+              try:
+                  meta = json.load(urllib.request.urlopen(f'https://archive.org/metadata/{ident}'))
+              except Exception as e:
+                  out.write(f'## {ident} ({year}) {title}: metadata error {e}\n'); continue
+              txt = [f['name'] for f in meta['files'] if f['name'].endswith('_djvu.txt')]
+              if not txt:
+                  out.write(f'## {ident} ({year}) {title}: no djvu.txt\n'); continue
+              try:
+                  t = urllib.request.urlopen(f'https://archive.org/download/{ident}/{txt[0]}').read().decode('utf-8','ignore')
+              except Exception as e:
+                  out.write(f'## {ident} ({year}) {title}: download error {e}\n'); continue
+              lines = t.split('\n')
+              hits = [i for i,l in enumerate(lines) if re.search(r"dating[^a-z]{0,6}do", l, re.I)]
+              out.write(f'## {ident} ({year}) {title}: {len(lines)} lines, {len(hits)} "Dating do" hits\n')
+              for i in hits:
+                  ctx = '\n'.join(lines[max(0,i-3):i+6])
+                  out.write(f'--- line {i}\n{ctx}\n')
+              out.flush()
+          PY
+          ls -la "$R"
+
+      - name: Summarise and package
+        run: |
+          set -e
+          python3 - <<'PY'
+          import json, glob
+          for p in glob.glob('out/probe/*.ffprobe.json'):
+              d = json.load(open(p)); fm = d['format']
+              print('==', p); print(' duration', fm.get('duration'), 'bitrate', fm.get('bit_rate'), 'size', fm.get('size'))
+              for s in d['streams']:
+                  print(' ', s['codec_type'], s.get('codec_name'), s.get('width'), s.get('height'), s.get('r_frame_rate'), s.get('channels'), s.get('sample_rate'), s.get('bit_rate'))
+          PY
+          cd out && zip -qr rights_evidence.zip rights probe ia_metadata.json files.txt && ls -la
+
+      - name: Publish as release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="source-${IA_ID}-${GITHUB_RUN_ID}"
+          ASSETS=(out/rights_evidence.zip out/ia_metadata.json)
+          while IFS= read -r f; do [ -n "$f" ] && [ -f "out/$f" ] && ASSETS+=("out/$f"); done < out/files.txt
+          gh release create "$TAG" "${ASSETS[@]}" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "Source assets: $IA_ID (run $GITHUB_RUN_ID)" \
+            --notes "Automated fetch of Internet Archive item $IA_ID with ffprobe reports and rights evidence. Source: https://archive.org/details/$IA_ID"
+          echo "Release: $TAG"
