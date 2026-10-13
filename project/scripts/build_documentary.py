@@ -53,14 +53,16 @@ def render_clip(edl, seg, out, w, h):
     inner_w = (inner_h * 4 // 3) // 2 * 2
     dur = float(seg["dur"])
     vf = []
-    vf.append("bwdif=mode=send_frame:parity=auto:deint=all")
-    vf.append(seg.get("crop", edl.get("crop", "crop=iw-16:ih-8:8:4")))
+    vf.append(edl.get("deinterlace", "fieldmatch=order=tff:combmatch=full,yadif=deint=interlaced"))
+    crop = seg.get("crop", edl.get("crop"))
+    if crop:
+        vf.append(crop)
     vf.append("deflicker=size=7:mode=am")
-    vf.append(seg.get("denoise", edl.get("denoise", "hqdn3d=2.5:2.0:6:6")))
+    vf.append(seg.get("denoise", edl.get("denoise", "hqdn3d=1.2:1.0:5:5")))
     if seg.get("stabilize", edl.get("stabilize", True)):
         vf.append("deshake=rx=16:ry=16:edge=mirror:blocksize=8")
-    vf.append(seg.get("color", edl.get("color", "eq=contrast=1.06:brightness=0.01:saturation=1.08:gamma=1.02")))
-    vf.append(seg.get("curves", edl.get("curves", "curves=master='0/0 0.06/0.03 0.5/0.52 0.94/0.97 1/1'")))
+    vf.append(seg.get("color", edl.get("color", "eq=contrast=1.02:saturation=1.06:gamma=1.12")))
+    vf.append(seg.get("curves", edl.get("curves", "curves=master='0/0 0.08/0.11 0.5/0.54 0.92/0.95 1/1'")))
     # Lanczos upscale to a working size a little larger than the frame for the zoom
     z0, z1 = seg.get("zoom", [1.0, 1.0])
     zexpr = f"({z0}+({z1}-{z0})*t/{dur})"
@@ -68,7 +70,7 @@ def render_clip(edl, seg, out, w, h):
     if (z0, z1) != (1.0, 1.0):
         vf.append(f"crop=w='iw/{zexpr}':h='ih/{zexpr}':x='(iw-ow)/2':y='(ih-oh)/2'")
         vf.append(f"scale={inner_w}:{inner_h}:flags=bicubic")
-    vf.append(seg.get("sharpen", edl.get("sharpen", "unsharp=5:5:0.45:3:3:0.0")))
+    vf.append(seg.get("sharpen", edl.get("sharpen", "unsharp=5:5:0.5:3:3:0.0")))
     bg = edl.get("pillar_bg", "0x0d0b09")
     vf.append(f"pad={w}:{h}:(ow-iw)/2:(oh-ih)/2:color={bg}")
     fi, fo = float(seg.get("fade_in", 0)), float(seg.get("fade_out", 0))
@@ -78,14 +80,14 @@ def render_clip(edl, seg, out, w, h):
         vf.append(f"fade=t=out:st={dur - fo:.3f}:d={fo}")
     vf.append("format=yuv420p")
     run(["ffmpeg", "-v", "error", "-y", "-ss", str(seg["src_start"]), "-i", edl["source"], "-t", str(dur), "-an",
-         "-vf", ",".join(vf), "-r", edl.get("fps", "24000/1001"),
+         "-vf", ",".join(vf), "-r", edl.get("fps", "30000/1001"),
          "-c:v", "libx264", "-preset", "medium", "-crf", "12", "-pix_fmt", "yuv420p",
          "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", out])
 
 
 def render_card(edl, seg, out, w, h):
     dur = float(seg["dur"])
-    fps = edl.get("fps", "24000/1001")
+    fps = edl.get("fps", "30000/1001")
     fi, fo = float(seg.get("fade_in", 0.6)), float(seg.get("fade_out", 0.6))
     fades = (f",fade=t=in:st=0:d={fi}" if fi > 0 else "") + (f",fade=t=out:st={dur - fo:.3f}:d={fo}" if fo > 0 else "")
     if "still_from" in seg:
@@ -93,14 +95,9 @@ def render_card(edl, seg, out, w, h):
         dark = seg.get("dark", 0.4)
         z0, z1 = seg.get("zoom", [1.0, 1.08])
         zexpr = f"({z0}+({z1}-{z0})*t/{dur})"
-        vf = (f"bwdif=mode=send_frame,{edl.get('crop', 'crop=iw-16:ih-8:8:4')},"
-              f"scale={w}:{h}:flags=lanczos:force_original_aspect_ratio=increase,crop={w}:{h},"
-              f"gblur=sigma={blur},eq=brightness=-{dark}:saturation=0.8,"
-              f"crop=w='iw/{zexpr}':h='ih/{zexpr}':x='(iw-ow)/2':y='(ih-oh)/2',scale={w}:{h}"
-              f"{fades},format=yuv420p")
         # take one frame and loop it
         run(["ffmpeg", "-v", "error", "-y", "-ss", str(seg["still_from"]), "-i", edl["source"], "-frames:v", "1",
-             "-vf", f"bwdif=mode=send_frame,{edl.get('crop', 'crop=iw-16:ih-8:8:4')},scale={w}:{h}:flags=lanczos:force_original_aspect_ratio=increase,crop={w}:{h},gblur=sigma={blur},eq=brightness=-{dark}:saturation=0.8",
+             "-vf", f"bwdif=mode=send_frame,scale={w}:{h}:flags=lanczos:force_original_aspect_ratio=increase,crop={w}:{h},gblur=sigma={blur},eq=brightness=-{dark}:saturation=0.8",
              out + ".still.png"])
         vf2 = f"crop=w='iw/{zexpr}':h='ih/{zexpr}':x='(iw-ow)/2':y='(ih-oh)/2',scale={w}:{h}{fades},format=yuv420p"
         run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-framerate", fps, "-i", out + ".still.png", "-t", str(dur),
