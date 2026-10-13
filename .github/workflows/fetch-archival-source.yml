@@ -6,6 +6,9 @@ name: Fetch archival source (Internet Archive)
 # environment can pull it. Part of the archival-documentary pipeline.
 
 on:
+  push:
+    branches: ["claude/wonderful-feynman-wb93v5"]
+    paths: [".github/workflows/fetch-archival-source.yml"]
   workflow_dispatch:
     inputs:
       identifier:
@@ -21,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     env:
-      IA_ID: ${{ inputs.identifier }}
+      IA_ID: ${{ inputs.identifier || 'DatingDo1949' }}
     steps:
       - uses: actions/checkout@v4
 
