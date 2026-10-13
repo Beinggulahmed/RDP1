@@ -1,0 +1,26 @@
+   0.00  open     clip   19.20  orig  Cold open: 'One couple. That means a date... Only what girl?'
+  19.20  title    card    6.00        Title card over blurred ticket close-up; narration n01 begins
+  25.20  b01      clip   14.30        B-roll: ticket close-up and Woody reading the note
+  39.50  s1a      clip   17.40  orig  'How do you choose a date?' - looks, Janice
+  56.90  s1b      clip   15.40  orig  'What about Ann? ... He wants to know he's appreciated.'
+  72.30  b02a     clip   17.60        B-roll: Woody weighs Betty; narration n02
+  89.90  b02b     clip   10.70        B-roll: Woody decides to ask Ann
+ 100.60  s2       clip   17.00  orig  The approved phone call
+ 117.60  b03      clip   31.30        B-roll: the Hi-Teen Carnival; narration n03
+ 148.90  s3a      clip    8.00  orig  Mother: weekends only, and not too late
+ 156.90  s3b      clip   17.20  orig  Ann: have a good time, leave your boyfriend enough money
+ 174.10  s3c      clip    4.60  orig  Father: ready on time
+ 178.70  b04a     clip   14.50        B-roll: Ann getting ready; narration n04
+ 193.20  b04b     clip   15.80        B-roll: Woody at the mirror
+ 209.00  s4a      clip   14.40  orig  'How do you say good night?' - the 1 a.m. ending
+ 223.40  s4b      clip   10.20  orig  'Well, so long.' - the abrupt ending
+ 233.60  s4c      clip   24.20  orig  The approved good night
+ 257.80  b05a     clip   18.00        B-roll: carnival; narration n05
+ 275.80  b05b     clip   22.50        B-roll: Woody walks home; The End card
+ 298.30  credits  card   12.00        Credits and rights card
+total 310.30 s  (5:10.30)
+narration n01 at 19.80 for 19.00s
+narration n02 at 72.90 for 27.00s
+narration n03 at 118.20 for 30.00s
+narration n04 at 179.30 for 29.00s
+narration n05 at 258.40 for 40.00s

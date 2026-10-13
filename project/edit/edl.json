@@ -1,0 +1,312 @@
+{
+ "source": "source/DatingDo1949.mpeg",
+ "source_audio": "audio/original_audio_48k.wav",
+ "fps": "30000/1001",
+ "segments": [
+  {
+   "id": "open",
+   "type": "clip",
+   "src_start": 50.3,
+   "dur": 19.2,
+   "orig_audio": true,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "fade_in": 0.8,
+   "fade_out": 0.5,
+   "note": "Cold open: 'One couple. That means a date... Only what girl?'"
+  },
+  {
+   "id": "title",
+   "type": "card",
+   "still_from": 13.5,
+   "dur": 6.0,
+   "blur": 26,
+   "dark": 0.45,
+   "fade_in": 0.5,
+   "fade_out": 0.4,
+   "note": "Title card over blurred ticket close-up; narration n01 begins"
+  },
+  {
+   "id": "b01",
+   "type": "clip",
+   "src_start": 12.0,
+   "orig_audio": false,
+   "zoom": [
+    1.0,
+    1.08
+   ],
+   "fade_in": 0.4,
+   "fade_out": 0.5,
+   "note": "B-roll: ticket close-up and Woody reading the note",
+   "dur": 14.3
+  },
+  {
+   "id": "s1a",
+   "type": "clip",
+   "src_start": 71.1,
+   "dur": 17.4,
+   "orig_audio": true,
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "fade_in": 0.4,
+   "fade_out": 0.3,
+   "note": "'How do you choose a date?' - looks, Janice"
+  },
+  {
+   "id": "s1b",
+   "type": "clip",
+   "src_start": 120.4,
+   "dur": 15.4,
+   "orig_audio": true,
+   "zoom": [
+    1.03,
+    1.0
+   ],
+   "fade_in": 0.3,
+   "fade_out": 0.5,
+   "note": "'What about Ann? ... He wants to know he's appreciated.'"
+  },
+  {
+   "id": "b02a",
+   "type": "clip",
+   "src_start": 102.8,
+   "dur": 17.6,
+   "orig_audio": false,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "fade_in": 0.4,
+   "fade_out": 0.0,
+   "note": "B-roll: Woody weighs Betty; narration n02"
+  },
+  {
+   "id": "b02b",
+   "type": "clip",
+   "src_start": 137.6,
+   "orig_audio": false,
+   "zoom": [
+    1.06,
+    1.0
+   ],
+   "fade_in": 0.0,
+   "fade_out": 0.5,
+   "note": "B-roll: Woody decides to ask Ann",
+   "dur": 10.7
+  },
+  {
+   "id": "s2",
+   "type": "clip",
+   "src_start": 319.6,
+   "dur": 17.0,
+   "orig_audio": true,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "fade_in": 0.4,
+   "fade_out": 0.5,
+   "note": "The approved phone call"
+  },
+  {
+   "id": "b03",
+   "type": "clip",
+   "src_start": 566.0,
+   "orig_audio": false,
+   "zoom": [
+    1.0,
+    1.07
+   ],
+   "fade_in": 0.4,
+   "fade_out": 0.5,
+   "note": "B-roll: the Hi-Teen Carnival; narration n03",
+   "dur": 31.3
+  },
+  {
+   "id": "s3a",
+   "type": "clip",
+   "src_start": 205.9,
+   "dur": 8.0,
+   "orig_audio": true,
+   "zoom": [
+    1.0,
+    1.03
+   ],
+   "fade_in": 0.4,
+   "fade_out": 0.3,
+   "note": "Mother: weekends only, and not too late"
+  },
+  {
+   "id": "s3b",
+   "type": "clip",
+   "src_start": 412.4,
+   "dur": 17.2,
+   "orig_audio": true,
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "fade_in": 0.3,
+   "fade_out": 0.3,
+   "note": "Ann: have a good time, leave your boyfriend enough money"
+  },
+  {
+   "id": "s3c",
+   "type": "clip",
+   "src_start": 509.6,
+   "dur": 4.6,
+   "orig_audio": true,
+   "zoom": [
+    1.02,
+    1.0
+   ],
+   "fade_in": 0.3,
+   "fade_out": 0.5,
+   "note": "Father: ready on time"
+  },
+  {
+   "id": "b04a",
+   "type": "clip",
+   "src_start": 437.5,
+   "dur": 14.5,
+   "orig_audio": false,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "fade_in": 0.4,
+   "fade_out": 0.0,
+   "note": "B-roll: Ann getting ready; narration n04"
+  },
+  {
+   "id": "b04b",
+   "type": "clip",
+   "src_start": 514.8,
+   "orig_audio": false,
+   "zoom": [
+    1.06,
+    1.0
+   ],
+   "fade_in": 0.0,
+   "fade_out": 0.5,
+   "note": "B-roll: Woody at the mirror",
+   "dur": 15.8
+  },
+  {
+   "id": "s4a",
+   "type": "clip",
+   "src_start": 647.0,
+   "dur": 14.4,
+   "orig_audio": true,
+   "zoom": [
+    1.0,
+    1.04
+   ],
+   "fade_in": 0.4,
+   "fade_out": 0.4,
+   "note": "'How do you say good night?' - the 1 a.m. ending"
+  },
+  {
+   "id": "s4b",
+   "type": "clip",
+   "src_start": 679.8,
+   "dur": 10.2,
+   "orig_audio": true,
+   "zoom": [
+    1.0,
+    1.03
+   ],
+   "fade_in": 0.3,
+   "fade_out": 0.3,
+   "note": "'Well, so long.' - the abrupt ending"
+  },
+  {
+   "id": "s4c",
+   "type": "clip",
+   "src_start": 697.9,
+   "dur": 24.2,
+   "orig_audio": true,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "fade_in": 0.3,
+   "fade_out": 0.6,
+   "note": "The approved good night"
+  },
+  {
+   "id": "b05a",
+   "type": "clip",
+   "src_start": 604.0,
+   "dur": 18.0,
+   "orig_audio": false,
+   "zoom": [
+    1.0,
+    1.06
+   ],
+   "fade_in": 0.5,
+   "fade_out": 0.0,
+   "note": "B-roll: carnival; narration n05"
+  },
+  {
+   "id": "b05b",
+   "type": "clip",
+   "src_start": 722.0,
+   "orig_audio": false,
+   "zoom": [
+    1.0,
+    1.05
+   ],
+   "fade_in": 0.0,
+   "fade_out": 1.0,
+   "note": "B-roll: Woody walks home; The End card",
+   "dur": 22.5
+  },
+  {
+   "id": "credits",
+   "type": "card",
+   "dur": 12.0,
+   "colour": "0x0b0a09",
+   "fade_in": 0.6,
+   "fade_out": 1.2,
+   "note": "Credits and rights card"
+  }
+ ],
+ "narration": [
+  {
+   "id": "n01",
+   "file": "audio/narration/n01.mp3",
+   "at": 19.8
+  },
+  {
+   "id": "n02",
+   "file": "audio/narration/n02.mp3",
+   "at": 72.9
+  },
+  {
+   "id": "n03",
+   "file": "audio/narration/n03.mp3",
+   "at": 118.2
+  },
+  {
+   "id": "n04",
+   "file": "audio/narration/n04.mp3",
+   "at": 179.3
+  },
+  {
+   "id": "n05",
+   "file": "audio/narration/n05.mp3",
+   "at": 258.4
+  }
+ ],
+ "music": {
+  "file": "music/background.mp3",
+  "gain_db": -16,
+  "fade_out": 8
+ },
+ "subtitles": "subs/documentary.ass"
+}

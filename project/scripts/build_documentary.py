@@ -65,11 +65,11 @@ def render_clip(edl, seg, out, w, h):
     vf.append(seg.get("curves", edl.get("curves", "curves=master='0/0 0.08/0.11 0.5/0.54 0.92/0.95 1/1'")))
     # Lanczos upscale to a working size a little larger than the frame for the zoom
     z0, z1 = seg.get("zoom", [1.0, 1.0])
-    zexpr = f"({z0}+({z1}-{z0})*t/{dur})"
     vf.append(f"scale={inner_w}:{inner_h}:flags=lanczos")
     if (z0, z1) != (1.0, 1.0):
-        vf.append(f"crop=w='iw/{zexpr}':h='ih/{zexpr}':x='(iw-ow)/2':y='(ih-oh)/2'")
-        vf.append(f"scale={inner_w}:{inner_h}:flags=bicubic")
+        fps = edl.get("fps", "30000/1001")
+        nframes = dur * eval(fps)
+        vf.append(f"zoompan=z='{z0}+({z1}-{z0})*in/{nframes:.2f}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={inner_w}x{inner_h}:fps={fps}")
     vf.append(seg.get("sharpen", edl.get("sharpen", "unsharp=5:5:0.5:3:3:0.0")))
     bg = edl.get("pillar_bg", "0x0d0b09")
     vf.append(f"pad={w}:{h}:(ow-iw)/2:(oh-ih)/2:color={bg}")
@@ -94,12 +94,12 @@ def render_card(edl, seg, out, w, h):
         blur = seg.get("blur", 20)
         dark = seg.get("dark", 0.4)
         z0, z1 = seg.get("zoom", [1.0, 1.08])
-        zexpr = f"({z0}+({z1}-{z0})*t/{dur})"
         # take one frame and loop it
         run(["ffmpeg", "-v", "error", "-y", "-ss", str(seg["still_from"]), "-i", edl["source"], "-frames:v", "1",
              "-vf", f"bwdif=mode=send_frame,scale={w}:{h}:flags=lanczos:force_original_aspect_ratio=increase,crop={w}:{h},gblur=sigma={blur},eq=brightness=-{dark}:saturation=0.8",
              out + ".still.png"])
-        vf2 = f"crop=w='iw/{zexpr}':h='ih/{zexpr}':x='(iw-ow)/2':y='(ih-oh)/2',scale={w}:{h}{fades},format=yuv420p"
+        nframes = dur * eval(fps)
+        vf2 = f"zoompan=z='{z0}+({z1}-{z0})*in/{nframes:.2f}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s={w}x{h}:fps={fps}{fades},format=yuv420p"
         run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-framerate", fps, "-i", out + ".still.png", "-t", str(dur),
              "-vf", vf2, "-r", fps, "-c:v", "libx264", "-preset", "medium", "-crf", "12", "-pix_fmt", "yuv420p",
              "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", out])
